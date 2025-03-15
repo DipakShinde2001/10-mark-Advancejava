@@ -1,0 +1,28 @@
+class ReverseCountdown extends Thread {
+ public void run() {
+ // Set initial thread name
+ setName("ReverseCounterThread");
+ System.out.println("Thread Name: " + getName());
+ for (int i = 100; i >= 1; i--) {
+ System.out.println("Count: " + i);
+ try {
+ // Thread sleeps for 6 seconds
+ Thread.sleep(6000);
+ } catch (InterruptedException e) {
+ System.out.println("Thread interrupted!");
+ }
+ // Change thread name after reaching 50
+ if (i == 50) {
+ setName("HalfWayThread");
+ System.out.println("Thread Name Changed: " + getName());
+ }
+ }
+ }
+}
+public class ReverseThreadDemo {
+ public static void main(String[] args) {
+ // Create and start the thread
+ ReverseCountdown thread = new ReverseCountdown();
+ thread.start();
+ }
+}
