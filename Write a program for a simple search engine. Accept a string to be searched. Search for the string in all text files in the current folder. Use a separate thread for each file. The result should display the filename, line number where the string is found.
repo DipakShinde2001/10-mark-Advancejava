@@ -1,0 +1,55 @@
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.*;
+class FileSearchTask implements Runnable {
+ private File file;
+ private String searchString;
+ public FileSearchTask(File file, String searchString) {
+ this.file = file;
+ this.searchString = searchString;
+ }
+ public void run() {
+ try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+ String line;
+ int lineNumber = 1;
+ boolean found = false;
+ while ((line = reader.readLine()) != null) {
+ if (line.contains(searchString)) {
+ System.out.println("Found in: " + file.getName() + " | Line " + lineNumber + " | " +
+line.trim());
+ found = true;
+ }
+ lineNumber++;
+ }
+ if (!found) {
+ System.out.println("No match found in: " + file.getName());
+ }
+ } catch (IOException e) {
+ System.err.println("Error reading file: " + file.getName());
+ }
+ }
+}
+public class SimpleSearchEngine {
+ public static void main(String[] args) {
+ Scanner scanner = new Scanner(System.in);
+ // Accept search string
+ System.out.print("Enter search string: ");
+ String searchString = scanner.nextLine();
+ scanner.close();
+ // Get all text files in the current directory
+ File currentDir = new File(".");
+ File[] textFiles = currentDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+ if (textFiles == null || textFiles.length == 0) {
+ System.out.println("No text files found in the current directory.");
+ return;
+ }
+ // Create an ExecutorService to manage threads
+ ExecutorService executor = Executors.newFixedThreadPool(5); // Max 5 threads at a time
+ // Assign each file a separate thread
+ for (File file : textFiles) {
+ executor.execute(new FileSearchTask(file, searchString));
+ }
+ // Shutdown executor service after task completion
+ executor.shutdown();
+ }
+}
