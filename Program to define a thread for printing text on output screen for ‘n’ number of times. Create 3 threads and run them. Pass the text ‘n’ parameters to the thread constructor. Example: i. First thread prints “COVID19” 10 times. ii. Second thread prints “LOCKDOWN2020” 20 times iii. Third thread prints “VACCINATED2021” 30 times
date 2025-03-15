@@ -1,0 +1,26 @@
+class PrintThread extends Thread {
+ private String text;
+ private int count;
+ // Constructor to initialize text & count
+ public PrintThread(String text, int count) {
+ this.text = text;
+ this.count = count;
+ }
+ // Run method for thread execution
+ public void run() {
+ for (int i = 1; i <= count; i++) {
+ System.out.println(text);
+ }
+ }
+}
+public class MultiThreadDemo {
+ public static void main(String[] args) {
+ // Creating 3 threads with different texts and counts
+ PrintThread t1 = new PrintThread("COVID19", 10);
+ PrintThread t2 = new PrintThread("LOCKDOWN2020", 20);
+ PrintThread t3 = new PrintThread("VACCINATED2021", 30);
+ // Start the threads
+ t1.start();
+ t2.start();
+ t3.start();
+ }
