@@ -1,0 +1,53 @@
+import java.util.Random;
+class SumCalculator extends Thread {
+ private int[] arr;
+ private int start, end;
+ private long partialSum;
+
+ public SumCalculator(int[] arr, int start, int end) {
+ this.arr = arr;
+ this.start = start;
+ this.end = end;
+ }
+ public void run() {
+ partialSum = 0;
+ for (int i = start; i < end; i++) {
+ partialSum += arr[i];
+ }
+ }
+ public long getPartialSum() {
+ return partialSum;
+ }
+}
+public class MultiThreadedSum {
+ public static void main(String[] args) {
+ int[] numbers = new int[1000];
+ Random random = new Random();
+ // Generating 1000 random integers between 1 and 100
+ for (int i = 0; i < 1000; i++) {
+ numbers[i] = random.nextInt(100) + 1;
+ }
+ SumCalculator[] threads = new SumCalculator[10];
+ int chunkSize = 100;
+ long totalSum = 0;
+ // Creating and starting 10 threads
+ for (int i = 0; i < 10; i++) {
+ threads[i] = new SumCalculator(numbers, i * chunkSize, (i + 1) * chunkSize);
+ threads[i].start();
+ }
+ // Ensuring all threads finish execution using join()
+ for (int i = 0; i < 10; i++) {
+ try {
+ threads[i].join();
+ totalSum += threads[i].getPartialSum();
+ } catch (InterruptedException e) {
+ e.printStackTrace();
+ }
+ }
+ // Calculating average
+ double average = (double) totalSum / numbers.length;
+ // Displaying results
+ System.out.println("Total Sum: " + totalSum);
+ System.out.println("Average: " + average);
+ }
+}
