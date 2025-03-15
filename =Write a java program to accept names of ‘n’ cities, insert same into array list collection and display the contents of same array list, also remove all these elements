@@ -1,0 +1,24 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+public class CityListManager {
+ public static void main(String[] args) {
+ Scanner scanner = new Scanner(System.in);
+ ArrayList<String> cityList = new ArrayList<>();
+ // Accept number of cities
+ System.out.print("Enter the number of cities: ");
+ int n = scanner.nextInt();
+ scanner.nextLine(); // Consume newline
+ // Insert cities into ArrayList
+ for (int i = 0; i < n; i++) {
+ System.out.print("Enter city " + (i + 1) + ": ");
+ String city = scanner.nextLine();
+ cityList.add(city);
+ }
+ // Display contents of ArrayList
+ System.out.println("\nCities in the ArrayList: " + cityList);
+ // Remove all elements from ArrayList
+ cityList.clear();
+ System.out.println("All cities removed. ArrayList is now: " + cityList);
+ scanner.close();
+ }
+}
