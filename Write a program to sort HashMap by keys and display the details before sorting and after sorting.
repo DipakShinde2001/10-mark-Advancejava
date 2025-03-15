@@ -1,0 +1,24 @@
+import java.util.*;
+public class HashMapSorting {
+ public static void main(String[] args) {
+ // Create an unsorted HashMap
+ HashMap<Integer, String> map = new HashMap<>();
+ map.put(105, "Alice");
+ map.put(102, "Bob");
+ map.put(108, "Charlie");
+ map.put(101, "David");
+ map.put(107, "Eve");
+ // Display HashMap before sorting
+ System.out.println("Before Sorting (Unsorted HashMap):");
+ for (Map.Entry<Integer, String> entry : map.entrySet()) {
+ System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+ }
+ // Sort HashMap by Keys using TreeMap
+ TreeMap<Integer, String> sortedMap = new TreeMap<>(map);
+ // Display HashMap after sorting
+ System.out.println("\nAfter Sorting (Sorted by Keys):");
+ for (Map.Entry<Integer, String> entry : sortedMap.entrySet()) {
+ System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+ }
+ }
+}
