@@ -1,0 +1,73 @@
+import java.util.Random;
+// Thread 1: Generates a random number every 1 second
+class RandomNumberGenerator extends Thread {
+ private SharedResource shared;
+ public RandomNumberGenerator(SharedResource shared) {
+ this.shared = shared;
+ }
+ public void run() {
+ Random rand = new Random();
+ while (true) {
+ int num = rand.nextInt(100) + 1; // Generate random number (1 to 100)
+ shared.setNumber(num);
+ try {
+ Thread.sleep(1000); // Pause for 1 second
+ } catch (InterruptedException e) {
+ e.printStackTrace();
+ }
+ }
+ }
+}
+// Thread 2: Computes and prints the square if the number is even
+class SquareCalculator extends Thread {
+ private SharedResource shared;
+ public SquareCalculator(SharedResource shared) {
+ this.shared = shared;
+ }
+ public void run() {
+ while (true) {
+ int num = shared.getNumber();
+ if (num % 2 == 0) {
+ System.out.println("Even Number: " + num + " | Square: " + (num * num));
+ }
+ }
+ }
+}
+// Thread 3: Computes and prints the cube if the number is odd
+class CubeCalculator extends Thread {
+ private SharedResource shared;
+ public CubeCalculator(SharedResource shared) {
+ this.shared = shared;
+ }
+ public void run() {
+ while (true) {
+ int num = shared.getNumber();
+ if (num % 2 != 0) {
+ System.out.println("Odd Number: " + num + " | Cube: " + (num * num * num));
+ }
+ }
+ }
+}
+// Shared Resource for communication between threads
+class SharedResource {
+ private int number = 0;
+ public synchronized void setNumber(int num) {
+ this.number = num;
+ notifyAll(); // Notify waiting threads
+ }
+ public synchronized int getNumber() {
+ return number;
+ }
+}
+// Main class to start the threads
+public class MultiThreadEvenOdd {
+ public static void main(String[] args) {
+ SharedResource shared = new SharedResource();
+ RandomNumberGenerator generator = new RandomNumberGenerator(shared);
+ SquareCalculator squareCalculator = new SquareCalculator(shared);
+ CubeCalculator cubeCalculator = new CubeCalculator(shared);
+ generator.start();
+ squareCalculator.start();
+ cubeCalculator.start();
+ }
+}
