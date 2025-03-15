@@ -1,0 +1,24 @@
+import java.util.LinkedList;
+import java.util.Scanner;
+public class FriendList {
+ public static void main(String[] args) {
+ Scanner scanner = new Scanner(System.in);
+ LinkedList<String> friends = new LinkedList<>();
+ // Accept number of friends
+ System.out.print("Enter the number of friends: ");
+ int n = scanner.nextInt();
+ scanner.nextLine(); // Consume newline
+ // Insert names into LinkedList
+ for (int i = 0; i < n; i++) {
+ System.out.print("Enter friend " + (i + 1) + ": ");
+ String name = scanner.nextLine();
+ friends.add(name);
+ }
+ // Display contents of LinkedList
+ System.out.println("\nFriends List:");
+ for (String friend : friends) {
+ System.out.println(friend);
+ }
+ scanner.close();
+ }
+}
