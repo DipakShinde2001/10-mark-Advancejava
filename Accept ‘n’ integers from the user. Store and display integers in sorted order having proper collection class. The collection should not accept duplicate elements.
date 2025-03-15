@@ -1,0 +1,20 @@
+import java.util.Scanner;
+import java.util.TreeSet;
+public class SortedUniqueIntegers {
+ public static void main(String[] args) {
+ Scanner scanner = new Scanner(System.in);
+ TreeSet<Integer> numbers = new TreeSet<>(); // TreeSet maintains sorted order & removes
+duplicates
+ // Accept number of elements
+ System.out.print("Enter the number of integers: ");
+ int n = scanner.nextInt();
+ // Insert elements into TreeSet
+ System.out.println("Enter " + n + " integers:");
+ for (int i = 0; i < n; i++) {
+ numbers.add(scanner.nextInt()); // TreeSet will automatically remove duplicates
+ }
+ // Display sorted unique integers
+ System.out.println("\nSorted Unique Integers: " + numbers);
+ scanner.close();
+ }
+}
